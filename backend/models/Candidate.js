@@ -67,14 +67,35 @@ const CandidateSchema = new mongoose.Schema({
         default: () => new Date().toLocaleString(),
     },
     feedback: {
-        type: Object,
+        type: Array,
+        default: []
+    },
+    badges: {
+        type: [
+            {
+                name: String,
+                points: Number,
+                assignedBy: String,
+                date: { type: String, default: () => new Date().toLocaleString() }
+            }
+        ],
+        default: []
+    },
+    xp: {
+        type: Number,
+        default: 0
     },
     hire: {
         type: Number, // 0=no status, 1 = hired, -1 = rejected
         default: 0
     },
+    hireCount: {
+        type: Number,
+        default: 0
+    },
     hireDetails: {
         type: Object,
+        default: {}
     },
     status: {
         type: Number,

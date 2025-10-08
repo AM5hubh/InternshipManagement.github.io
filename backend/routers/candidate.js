@@ -18,5 +18,9 @@ router.post("/", authMiddleware, controller.addCandidate);
 
 // PATCH REQUESTS
 router.patch("/selection", authMiddleware, controller.candidateSelection);
+router.patch("/badge", authMiddleware, controller.assignBadge);
+
+// Certificate generation / download
+router.get("/:id/certificate", authMiddleware, controller.generateCertificate);
 
 module.exports = router;
