@@ -7,6 +7,9 @@ import PersonIcon from '@mui/icons-material/Person';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import GradeIcon from '@mui/icons-material/Grade';
+import fetchData from '../../Common/fetchData'
+import apiClient from '../../Common/apiClient'
+import BadgeIcon from '@mui/icons-material/Badge';
 
 import { InternContext } from '../ListInterns';
 
@@ -37,6 +40,37 @@ export default function InternProfile() {
     return <>
         <PopUp popUpClose={handleClose} title="Intern Profile" icon={<PersonIcon style={{ fontSize: "2rem" }} />}>
             <DialogContent>
+                <div style={{ borderTop: "1px solid #dedede", marginTop: "1rem", padding: "1rem" }}>
+                    <h4>BADGES & XP</h4>
+                    <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
+                        {(candidate.badges || []).map((b, i) => <div key={i} style={{ border: '1px solid #ddd', padding: '0.4rem 0.6rem', borderRadius: 6 }}><BadgeIcon style={{ verticalAlign: 'middle', marginRight: 6 }} />{b.name} <small>({b.points} XP)</small></div>)}
+                    </div>
+                    <div style={{ marginTop: '0.5rem' }}>Total XP: <strong>{candidate.xp || 0}</strong></div>
+
+                    {/* Manager actions: assign badge & download certificate */}
+                    <div style={{ marginTop: '1rem', display: 'flex', gap: '.5rem' }}>
+                        <input id="badgeNameInput" placeholder="Badge name (e.g. Top Performer)" style={{ padding: '.4rem' }} />
+                        <input id="badgePointsInput" type="number" placeholder="Points" style={{ width: 80, padding: '.4rem' }} />
+                        <button onClick={async () => {
+                            const badgeName = document.getElementById('badgeNameInput').value;
+                            const points = Number(document.getElementById('badgePointsInput').value || 0);
+                            if (!badgeName) return alert('Badge name required');
+                            try {
+                                await apiClient.patch('/candidate/badge', { candidateID: candidate._id, badgeName, points, assignedBy: 'manager' });
+                                window.location.reload();
+                            } catch (err) { alert(err?.response?.data?.message || err.message) }
+                        }}>Assign Badge</button>
+
+                        <button onClick={async () => {
+                            try {
+                                const resp = await apiClient.getBlob(`/candidate/${candidate._id}/certificate?download=1`);
+                                const blob = new Blob([resp.data], { type: 'application/pdf' });
+                                const blobUrl = window.URL.createObjectURL(blob);
+                                window.open(blobUrl, '_blank');
+                            } catch (err) { alert(err?.response?.data?.message || err.message) }
+                        }}>Download Certificate</button>
+                    </div>
+                </div>
                 <div className="space-between">
                     <a href={candidate.resumeLink} target="_blank" rel="noreferrer" style={{ marginRight: "1rem" }}>
                         <Button variant="contained">Resume</Button>

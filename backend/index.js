@@ -2,6 +2,7 @@ const express = require("express")
 const app = express();
 const cookieParser = require('cookie-parser')
 const cors = require('cors');
+const path = require('path');
 require("dotenv").config();
 
 // MIDDLEWARE
@@ -21,7 +22,13 @@ app.use(cors({
 app.use(express.json());
 app.use(cookieParser());
 
+// Serve generated certificates (saved PDFs)
+app.use('/generated_certificates', express.static(path.join(__dirname, 'generated_certificates')));
+
 // ROUTES
+const authenticationRouter = require("./routers/authentication")
+app.use("/authentication", authenticationRouter)
+
 const candidateRouter = require("./routers/candidate")
 const feedbackRouter = require("./routers/feedback")
 const groupRouter = require("./routers/group")
@@ -32,12 +39,10 @@ app.use("/feedback", feedbackRouter);
 app.use("/group", groupRouter);
 app.use("/work", workRouter);
 
-const authenticationRouter = require("./routers/authentication")
-app.use("/authentication", authenticationRouter)
-
 // ERRORs
+// Catch-all for unmapped routes -> return proper 404 status
 app.use((req, res, next) => {
-    res.send("ERROR 404");
+    res.status(404).send("ERROR 404");
 })
 
 // ERROR HANDLERS
