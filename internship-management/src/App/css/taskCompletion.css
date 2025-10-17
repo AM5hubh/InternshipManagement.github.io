@@ -1,0 +1,69 @@
+/* Task completion styles */
+.task-completion-dialog .MuiDialog-paper {
+  border-radius: 12px;
+}
+
+.task-completion-success {
+  background: linear-gradient(45deg, #4caf50 30%, #81c784 90%);
+  color: white;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.task-completion-success .MuiTypography-h6 {
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.xp-breakdown-box {
+  background: linear-gradient(135deg, #f5f5f5 0%, #e8f5e8 100%);
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.xp-breakdown-box .MuiTypography-subtitle2 {
+  color: #1976d2;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+/* Completion button animations */
+.complete-task-btn {
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(76, 175, 80, 0.3);
+}
+
+.complete-task-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(76, 175, 80, 0.4);
+}
+
+/* Early completion bonus indicator */
+.bonus-indicator {
+  background: linear-gradient(45deg, #ff9800 30%, #ffb74d 90%);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  margin-left: 8px;
+}
+
+/* Task status indicators */
+.task-status-completed {
+  background: linear-gradient(135deg, #e8f5e8 0%, #c8e6c9 100%);
+  border-left: 4px solid #4caf50;
+}
+
+.task-status-pending {
+  background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+  border-left: 4px solid #ff9800;
+}
+
+.task-status-overdue {
+  background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+  border-left: 4px solid #f44336;
+}
